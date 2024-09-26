@@ -69,5 +69,5 @@ terraform destroy
 
 ## Security Considerations
 
-SSH Access: Ensure that the source_address_prefix in the Network Security Group is set to your public IP address to restrict SSH access.
-Sensitive Data: Do not commit sensitive data such as passwords or private keys to version control. Use environment variables or a secrets management service to handle sensitive information securely.
+- SSH Access: Ensure that the source_address_prefix in the Network Security Group is set to your public IP address to restrict SSH access.
+- Sensitive Data: Do not commit sensitive data such as passwords or private keys to version control. Use environment variables or a secrets management service to handle sensitive information securely.
