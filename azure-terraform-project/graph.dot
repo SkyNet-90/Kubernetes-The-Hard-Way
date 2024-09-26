@@ -1,0 +1,27 @@
+digraph G {
+  rankdir = "RL";
+  node [shape = rect, fontname = "sans-serif"];
+  "azurerm_linux_virtual_machine.jumpbox" [label="azurerm_linux_virtual_machine.jumpbox"];
+  "azurerm_linux_virtual_machine.node_0" [label="azurerm_linux_virtual_machine.node_0"];
+  "azurerm_linux_virtual_machine.node_1" [label="azurerm_linux_virtual_machine.node_1"];
+  "azurerm_linux_virtual_machine.server" [label="azurerm_linux_virtual_machine.server"];
+  "azurerm_network_interface.nic" [label="azurerm_network_interface.nic"];
+  "azurerm_network_security_group.nsg" [label="azurerm_network_security_group.nsg"];
+  "azurerm_public_ip.jumpbox_ip" [label="azurerm_public_ip.jumpbox_ip"];
+  "azurerm_resource_group.rg" [label="azurerm_resource_group.rg"];
+  "azurerm_storage_account.sa" [label="azurerm_storage_account.sa"];
+  "azurerm_subnet.subnet" [label="azurerm_subnet.subnet"];
+  "azurerm_virtual_network.vnet" [label="azurerm_virtual_network.vnet"];
+  "azurerm_linux_virtual_machine.jumpbox" -> "azurerm_network_interface.nic";
+  "azurerm_linux_virtual_machine.jumpbox" -> "azurerm_storage_account.sa";
+  "azurerm_linux_virtual_machine.node_0" -> "azurerm_network_interface.nic";
+  "azurerm_linux_virtual_machine.node_1" -> "azurerm_network_interface.nic";
+  "azurerm_linux_virtual_machine.server" -> "azurerm_network_interface.nic";
+  "azurerm_network_interface.nic" -> "azurerm_public_ip.jumpbox_ip";
+  "azurerm_network_interface.nic" -> "azurerm_subnet.subnet";
+  "azurerm_network_security_group.nsg" -> "azurerm_resource_group.rg";
+  "azurerm_public_ip.jumpbox_ip" -> "azurerm_resource_group.rg";
+  "azurerm_storage_account.sa" -> "azurerm_resource_group.rg";
+  "azurerm_subnet.subnet" -> "azurerm_virtual_network.vnet";
+  "azurerm_virtual_network.vnet" -> "azurerm_resource_group.rg";
+}
