@@ -15,3 +15,7 @@ variable "public_ip" {
   description = "Public IP address for SSH access"
   type        = string
 }
+
+variable "subscription_id" {
+  description = "Azure subscription ID."
+}
