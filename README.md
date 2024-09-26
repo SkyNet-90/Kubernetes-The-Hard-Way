@@ -40,7 +40,7 @@ This project uses Terraform to provision four Azure virtual machines and the nec
 
 1. Clone the repository:
     ```sh
-    git clone <repository-url>
+    git clone https://github.com/SkyNet-90/Kubernetes-The-Hard-Way
     cd azure-terraform-project
     ```
 
