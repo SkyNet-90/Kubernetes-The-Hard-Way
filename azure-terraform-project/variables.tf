@@ -11,4 +11,7 @@ variable "admin_ssh_public_key" {
   description = "SSH public key for admin user authentication."
 }
 
-# Add any other custom variables as needed
+variable "public_ip" {
+  description = "Public IP address for SSH access"
+  type        = string
+}
