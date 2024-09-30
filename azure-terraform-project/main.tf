@@ -80,19 +80,18 @@ resource "azurerm_network_interface" "nic" {
 
 # Storage Account for Boot Diagnostics
 resource "azurerm_storage_account" "sa" {
-  name                     = "diagstorageacct"
+  name                     = "diagstorageacct9302024"
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
 
-# Jumpbox VM (Public IP and SSH access)
 resource "azurerm_linux_virtual_machine" "jumpbox" {
   name                = "jumpbox"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
-  size                = "Standard_B1s" # ARM64-compatible machine type
+  size                = "Standard_B1ms"
   admin_username      = var.admin_username
 
   network_interface_ids = [
@@ -102,7 +101,7 @@ resource "azurerm_linux_virtual_machine" "jumpbox" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
-    disk_size_gb         = 10
+    disk_size_gb         = 30  # Update disk size to 30 GB
   }
 
   source_image_reference {
@@ -115,10 +114,6 @@ resource "azurerm_linux_virtual_machine" "jumpbox" {
   admin_ssh_key {
     username   = var.admin_username
     public_key = var.admin_ssh_public_key
-  }
-
-  boot_diagnostics {
-    storage_account_uri = azurerm_storage_account.sa.primary_blob_endpoint
   }
 
   tags = {
@@ -142,7 +137,7 @@ resource "azurerm_linux_virtual_machine" "server" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
-    disk_size_gb         = 20
+    disk_size_gb         = 30  # Update disk size to 30 GB
   }
 
   source_image_reference {
@@ -178,7 +173,7 @@ resource "azurerm_linux_virtual_machine" "node_0" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
-    disk_size_gb         = 20
+    disk_size_gb         = 30  # Update disk size to 30 GB
   }
 
   source_image_reference {
@@ -214,7 +209,7 @@ resource "azurerm_linux_virtual_machine" "node_1" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
-    disk_size_gb         = 20
+    disk_size_gb         = 30  # Update disk size to 30 GB
   }
 
   source_image_reference {
