@@ -83,6 +83,7 @@ resource "aws_instance" "jumpbox" {
   vpc_security_group_ids      = [aws_security_group.sg_ssh.id]
   subnet_id                   = aws_subnet.subnet.id
   associate_public_ip_address = true
+  key_name                    = var.key_pair_name
 
   root_block_device {
     volume_size = 10
