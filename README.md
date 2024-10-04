@@ -121,8 +121,10 @@ After applying the configuration, Terraform will output the public and private I
 ## Cleaning Up
 
 To destroy the resources created by Terraform, run:
-```sh
-terraform destroy
+    ```sh
+    terraform destroy
+    ```
+    
 ## Security Considerations
 
 - SSH Access: Ensure that the source_address_prefix in the Network Security Group is set to your public IP address to restrict SSH access.
