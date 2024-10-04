@@ -52,15 +52,37 @@ resource "aws_route_table_association" "rta" {
 }
 
 # Security Group for SSH Access (Allow from any IP)
-resource "aws_security_group" "sg_ssh" {
-  name   = "allow_ssh"
+resource "aws_security_group" "kubernetes_sg" {
+  name   = "kubernetes_sg"
   vpc_id = aws_vpc.vpc.id
 
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Allow SSH from any IP address
+    cidr_blocks = ["0.0.0.0/0"] # Limit this to known IPs for SSH access.
+  }
+
+  # Allow intra-cluster communication on required ports
+  ingress {
+    from_port   = 6443
+    to_port     = 6443
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+
+  ingress {
+    from_port   = 2379
+    to_port     = 2380
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+
+  ingress {
+    from_port   = 10250
+    to_port     = 10255
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
   }
 
   egress {
@@ -71,7 +93,7 @@ resource "aws_security_group" "sg_ssh" {
   }
 
   tags = {
-    Name = "allow_ssh_sg"
+    Name = "kubernetes_sg"
   }
 }
 
@@ -80,7 +102,7 @@ resource "aws_security_group" "sg_ssh" {
 resource "aws_instance" "jumpbox" {
   ami                         = var.ami_id
   instance_type               = "t4g.micro"
-  vpc_security_group_ids      = [aws_security_group.sg_ssh.id]
+  vpc_security_group_ids      = [aws_security_group.kubernetes_sg.id]
   subnet_id                   = aws_subnet.subnet.id
   associate_public_ip_address = true
   key_name                    = var.key_pair_name
@@ -101,13 +123,16 @@ resource "aws_instance" "jumpbox" {
 resource "aws_instance" "server" {
   ami                         = var.ami_id
   instance_type               = "t4g.small"
-  vpc_security_group_ids      = [aws_security_group.sg_ssh.id]
+  vpc_security_group_ids      = [aws_security_group.kubernetes_sg.id]
   subnet_id                   = aws_subnet.subnet.id
   associate_public_ip_address = false
 
   root_block_device {
     volume_size = 20
   }
+
+  # Reference the user_data variable
+  user_data = var.user_data
 
   tags = {
     Name = "server"
@@ -118,13 +143,16 @@ resource "aws_instance" "server" {
 resource "aws_instance" "node_0" {
   ami                         = var.ami_id
   instance_type               = "t4g.small"
-  vpc_security_group_ids      = [aws_security_group.sg_ssh.id]
+  vpc_security_group_ids      = [aws_security_group.kubernetes_sg.id]
   subnet_id                   = aws_subnet.subnet.id
   associate_public_ip_address = false
 
   root_block_device {
     volume_size = 20
   }
+
+  # Reference the user_data variable
+  user_data = var.user_data
 
   tags = {
     Name = "node-0"
@@ -134,13 +162,16 @@ resource "aws_instance" "node_0" {
 resource "aws_instance" "node_1" {
   ami                         = var.ami_id
   instance_type               = "t4g.small"
-  vpc_security_group_ids      = [aws_security_group.sg_ssh.id]
+  vpc_security_group_ids      = [aws_security_group.kubernetes_sg.id]
   subnet_id                   = aws_subnet.subnet.id
   associate_public_ip_address = false
 
   root_block_device {
     volume_size = 20
   }
+
+  # Reference the user_data variable
+  user_data = var.user_data
 
   tags = {
     Name = "node-1"
