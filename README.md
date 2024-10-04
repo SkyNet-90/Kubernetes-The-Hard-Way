@@ -2,6 +2,8 @@
 
 This repository contains Terraform configurations to provision virtual machines and necessary networking resources on both Azure and AWS. The VMs are configured to run Debian 12 (bookworm) and meet the following specifications:
 
+This project is being used in conjunction with the [Kubernetes the Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) Git repository.
+
 | Name    | Description           | CPU | RAM   | Storage |
 |---------|-----------------------|-----|-------|---------|
 | jumpbox | Administration host   | 1   | 512MB | 10GB    |
@@ -120,7 +122,12 @@ After applying the configuration, Terraform will output the public and private I
 
 ## Cleaning Up
 
-To destroy the resources created by Terraform, run the following command: terraform destroy
+To destroy the resources created by Terraform, run the following command:
+
+```sh
+terraform destroy
+```
+
 
 ## Security Considerations
 
