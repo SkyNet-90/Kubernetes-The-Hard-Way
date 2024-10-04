@@ -120,10 +120,7 @@ After applying the configuration, Terraform will output the public and private I
 
 ## Cleaning Up
 
-To destroy the resources created by Terraform, run the following command:
-    ```sh
-    terraform destroy
-    ```
+To destroy the resources created by Terraform, run the following command: terraform destroy
 
 ## Security Considerations
 
